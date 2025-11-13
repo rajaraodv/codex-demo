@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS mood_entries (
+  id UUID PRIMARY KEY,
+  emoji TEXT NOT NULL,
+  mood TEXT NOT NULL,
+  label TEXT NOT NULL DEFAULT ''::text,
+  entry_date DATE NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
