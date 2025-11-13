@@ -162,24 +162,27 @@ export default function MoodBoard({ initialMoods, dbError }: Props) {
   const actionLabel = editingId ? "Update entry" : "Add entry";
 
   return (
-    <div className="flex flex-col gap-10">
-      <div className="rounded-3xl border border-zinc-200 bg-white/60 p-6 shadow-sm backdrop-blur-sm">
-        <div className="mb-6 flex items-center justify-between">
+    <section className="grid gap-6 lg:grid-cols-[minmax(0,420px)_1fr]">
+      <div className="rounded-[32px] border border-white/10 bg-white/5 p-6 text-white shadow-2xl backdrop-blur">
+        <div className="mb-6 flex items-start justify-between">
           <div>
-            <h2 className="text-2xl font-semibold text-zinc-900">
-              How are you feeling?
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
+              Quick log
+            </p>
+            <h2 className="mt-2 text-2xl font-semibold text-white">
+              How are you feeling today?
             </h2>
-            <p className="text-sm text-zinc-500">
-              Log your mood to spot trends over time.
+            <p className="mt-2 text-sm text-slate-300">
+              Capture a tiny snapshot in seconds. Tap an entry to revisit or edit later.
             </p>
           </div>
-          <span className="text-3xl" role="img" aria-hidden="true">
+          <span className="text-4xl" role="img" aria-hidden="true">
             {form.emoji}
           </span>
         </div>
 
         {dbError && (
-          <p className="mb-4 rounded-2xl border border-orange-200 bg-orange-50 px-4 py-3 text-sm text-orange-900">
+          <p className="mb-4 rounded-2xl border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
             {dbError}
           </p>
         )}
@@ -188,8 +191,8 @@ export default function MoodBoard({ initialMoods, dbError }: Props) {
           <p
             className={`mb-4 rounded-2xl px-4 py-3 text-sm ${
               status.type === "success"
-                ? "border border-emerald-200 bg-emerald-50 text-emerald-900"
-                : "border border-rose-200 bg-rose-50 text-rose-900"
+                ? "border border-emerald-500/30 bg-emerald-500/10 text-emerald-100"
+                : "border border-rose-500/30 bg-rose-500/10 text-rose-100"
             }`}
           >
             {status.message}
@@ -200,15 +203,15 @@ export default function MoodBoard({ initialMoods, dbError }: Props) {
           className="grid gap-4 md:grid-cols-[120px_1fr]"
           onSubmit={handleSubmit}
         >
-          <div className="flex gap-2 overflow-x-auto rounded-2xl border border-zinc-200 p-2">
+          <div className="flex gap-2 overflow-x-auto rounded-2xl border border-white/10 bg-white/5 p-2">
             {emojiChoices.map((emoji) => (
               <button
                 type="button"
                 key={emoji}
                 className={`flex h-12 w-12 items-center justify-center rounded-2xl text-2xl transition ${
                   form.emoji === emoji
-                    ? "bg-indigo-600/10 text-indigo-600"
-                    : "hover:bg-zinc-100"
+                    ? "bg-white text-slate-900 shadow"
+                    : "hover:bg-white/10"
                 }`}
                 onClick={() => updateField("emoji", emoji)}
                 aria-label={`Use ${emoji} for this entry`}
@@ -223,22 +226,22 @@ export default function MoodBoard({ initialMoods, dbError }: Props) {
 
           <div className="space-y-4">
             <div className="grid gap-3 sm:grid-cols-2">
-              <label className="text-sm font-medium text-zinc-600">
+              <label className="text-sm font-medium text-slate-200">
                 Mood
                 <input
-                  className="mt-1 w-full rounded-2xl border border-zinc-200 px-3 py-2 text-base text-zinc-900 focus:border-indigo-500 focus:outline-none"
-                  placeholder="Happy, tired, grateful..."
+                  className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-base text-white placeholder:text-slate-400 focus:border-white focus:outline-none"
+                  placeholder="Productive, cozy, restless..."
                   value={form.mood}
                   onChange={(event) => updateField("mood", event.target.value)}
                   disabled={Boolean(dbError) || isSubmitting}
                   required
                 />
               </label>
-              <label className="text-sm font-medium text-zinc-600">
+              <label className="text-sm font-medium text-slate-200">
                 Date
                 <input
                   type="date"
-                  className="mt-1 w-full rounded-2xl border border-zinc-200 px-3 py-2 text-base text-zinc-900 focus:border-indigo-500 focus:outline-none"
+                  className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-base text-white placeholder:text-slate-400 focus:border-white focus:outline-none"
                   value={form.entryDate}
                   onChange={(event) => updateField("entryDate", event.target.value)}
                   disabled={Boolean(dbError) || isSubmitting}
@@ -246,11 +249,11 @@ export default function MoodBoard({ initialMoods, dbError }: Props) {
                 />
               </label>
             </div>
-            <label className="text-sm font-medium text-zinc-600">
+            <label className="text-sm font-medium text-slate-200">
               Label
               <input
-                className="mt-1 w-full rounded-2xl border border-zinc-200 px-3 py-2 text-base text-zinc-900 focus:border-indigo-500 focus:outline-none"
-                placeholder="What happened?"
+                className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-base text-white placeholder:text-slate-400 focus:border-white focus:outline-none"
+                placeholder="Give the moment a short title"
                 value={form.label}
                 onChange={(event) => updateField("label", event.target.value)}
                 disabled={Boolean(dbError) || isSubmitting}
@@ -259,7 +262,7 @@ export default function MoodBoard({ initialMoods, dbError }: Props) {
             <div className="flex flex-wrap gap-3">
               <button
                 type="submit"
-                className="rounded-2xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
+                className="rounded-2xl bg-white px-5 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:bg-white/40"
                 disabled={Boolean(dbError) || isSubmitting}
               >
                 {isSubmitting ? "Saving..." : actionLabel}
@@ -267,7 +270,7 @@ export default function MoodBoard({ initialMoods, dbError }: Props) {
               {editingId && (
                 <button
                   type="button"
-                  className="rounded-2xl border border-zinc-200 px-4 py-2 text-sm font-semibold text-zinc-600 transition hover:bg-zinc-50"
+                  className="rounded-2xl border border-white/20 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-white/40"
                   onClick={resetForm}
                   disabled={isSubmitting}
                 >
@@ -279,27 +282,30 @@ export default function MoodBoard({ initialMoods, dbError }: Props) {
         </form>
       </div>
 
-      <div className="rounded-3xl border border-zinc-200 bg-white/50 p-6 shadow-sm">
-        <div className="flex items-center justify-between">
+      <div className="rounded-[32px] border border-white/10 bg-slate-950/40 p-6 text-white shadow-2xl backdrop-blur">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h3 className="text-xl font-semibold text-zinc-900">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
+              Timeline
+            </p>
+            <h3 className="mt-2 text-xl font-semibold text-white">
               Recent entries
             </h3>
-            <p className="text-sm text-zinc-500">
-              Tap an entry to edit it or remove ones you no longer need.
+            <p className="text-sm text-slate-400">
+              Tap any row to edit. Remove the ones you are ready to let go of.
             </p>
           </div>
-          <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-600">
+          <span className="rounded-full border border-white/20 px-4 py-1 text-xs font-medium text-white/70">
             {sortedMoods.length} saved
           </span>
         </div>
 
         {sortedMoods.length === 0 ? (
-          <p className="mt-6 rounded-2xl border border-dashed border-zinc-200 px-4 py-8 text-center text-sm text-zinc-500">
-            No entries yet. Start logging your day!
+          <p className="mt-6 rounded-3xl border border-dashed border-white/20 px-4 py-10 text-center text-sm text-white/60">
+            No entries logged yet. Your first check-in will appear here.
           </p>
         ) : (
-          <ul className="mt-6 divide-y divide-zinc-100">
+          <ul className="mt-6 divide-y divide-white/5">
             {sortedMoods.map((entry) => (
               <li
                 key={entry.id}
@@ -307,25 +313,29 @@ export default function MoodBoard({ initialMoods, dbError }: Props) {
               >
                 <button
                   type="button"
-                  className="flex flex-1 items-center gap-4 text-left"
+                  className="group flex flex-1 items-center gap-4 text-left"
                   onClick={() => handleEdit(entry)}
                   disabled={Boolean(dbError)}
                 >
-                  <span className="text-3xl" role="img" aria-hidden>
+                  <span
+                    className="text-3xl transition group-hover:scale-110"
+                    role="img"
+                    aria-hidden="true"
+                  >
                     {entry.emoji}
                   </span>
                   <div>
-                    <p className="text-base font-semibold text-zinc-900">
+                    <p className="text-base font-semibold text-white">
                       {entry.mood}
                     </p>
-                    <p className="text-sm text-zinc-500">{entry.label}</p>
+                    <p className="text-sm text-slate-400">{entry.label || "No label added"}</p>
                   </div>
                 </button>
-                <div className="flex flex-col items-start gap-2 text-sm text-zinc-500 sm:items-end sm:text-right">
+                <div className="flex flex-col items-start gap-2 text-sm text-slate-400 sm:items-end sm:text-right">
                   <span>{formatDate(entry.entryDate)}</span>
                   <button
                     type="button"
-                    className="text-rose-600 hover:text-rose-500"
+                    className="text-rose-300 hover:text-rose-200"
                     onClick={() => handleDelete(entry.id)}
                     disabled={Boolean(dbError)}
                   >
@@ -337,6 +347,6 @@ export default function MoodBoard({ initialMoods, dbError }: Props) {
           </ul>
         )}
       </div>
-    </div>
+    </section>
   );
 }
